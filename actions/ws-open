@@ -1,0 +1,14 @@
+#!/bin/bash
+name="$(zenity --entry --title='workspace name' --text='enter workspace name')"
+
+if [ "$name" = "" ]; then
+    echo "workspace name not provided"
+    exit 1
+fi
+
+name="$(i3-msg -t get_workspaces | jq -r 'map(select(.focused))[0].name' | cut -d':' -f1)"
+
+google-chrome --new-window
+emacs
+emacsclient -n -c
+~/paneconfig/actions/sticky-open-placeholder
